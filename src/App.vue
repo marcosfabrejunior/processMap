@@ -43,50 +43,131 @@
 					</div>
 				</div>
 				<div class="map-body">
-					<div class="item-process">
+					<div class="item-process"  v-for="processo in processos" :key="processo.id">
 						<div class="item-margin">
 							<div class="item-margin-top">
-								<div class="item-half br">
-
+								<div class="item-half br" v-on:click="pimba();processo.pr_fornecedores = !processo.pr_fornecedores">
+									{{processo.fornecedores}}
 								</div>
-								<div class="item-half br">
-
+								<div class="item-half br" v-on:click="pimba();processo.pr_entradas = !processo.pr_entradas">
+									{{processo.entradas}}
 								</div>
 							</div>
 							<div class="item-margin-bottom">
-								<div class="item-all br">
+								<div class="item-all br" v-on:click="pimba();processo.pr_requisitos_entrada = !processo.pr_requisitos_entrada">
 									<div class="requisites">
 										Requisitos:
 									</div>
+									{{processo.requisitos_entrada}}
 								</div>
 							</div>
 						</div>
 						<div class="item-center">
-							<div class="item-process-name">
-
+							<div class="item-process-name" v-on:click="pimba();processo.pr_processo_nome = !processo.pr_processo_nome">
+								{{processo.processo_nome}}
 							</div>
 						</div>
 						<div class="item-margin">
 							<div class="item-margin-top">
-								<div class="item-half bl">
-
+								<div class="item-half bl" v-on:click="pimba();processo.pr_saida = !processo.pr_saida">
+									<span>{{processo.saida}}</span>
 								</div>
-								<div class="item-half bl">
-
+								<div class="item-half bl" v-on:click="pimba();processo.pr_clientes = !processo.pr_clientes">
+									{{processo.clientes}}
 								</div>
 							</div>
 							<div class="item-margin-bottom">
-								<div class="item-all bl">
+								<div class="item-all bl" v-on:click="pimba();processo.pr_requisitos_saida = !processo.pr_requisitos_saida">
 									<div class="requisites">
 										Requisitos:
 									</div>
+									{{processo.requisitos_saida}}
 								</div>
+							</div>
+						</div>
+
+						<!-- processo fornecedores -->
+						<div v-if="processo.pr_fornecedores" class="config">
+							<div class="alt-text">
+								<div class="label">
+									Digite o conteúdo abaixo:
+								</div>
+								<textarea  v-model="processo.fornecedores">
+									
+								</textarea>
+							</div>
+						</div>
+						<!-- processo entradas -->
+						<div v-if="processo.pr_entradas" class="config">
+							<div class="alt-text">
+								<div class="label">
+									Digite o conteúdo abaixo:
+								</div>
+								<textarea  v-model="processo.entradas">
+									
+								</textarea>
+							</div>
+						</div>
+						<!-- processo nome -->
+						<div v-if="processo.pr_processo_nome" class="config">
+							<div class="alt-text">
+								<div class="label">
+									Digite o conteúdo abaixo:
+								</div>
+								<textarea  v-model="processo.processo_nome">
+									
+								</textarea>
+							</div>
+						</div>
+						<!-- processo saida -->
+						<div v-if="processo.pr_saida" class="config">
+							<div class="alt-text">
+								<div class="label">
+									Digite o conteúdo abaixo:
+								</div>
+								<textarea  v-model="processo.saida">
+									
+								</textarea>
+							</div>
+						</div>
+						<!-- processo clientes -->
+						<div v-if="processo.pr_clientes" class="config">
+							<div class="alt-text">
+								<div class="label">
+									Digite o conteúdo abaixo:
+								</div>
+								<textarea  v-model="processo.clientes">
+									
+								</textarea>
+							</div>
+						</div>
+						<!-- processo requisitos_entrada -->
+						<div v-if="processo.pr_requisitos_entrada" class="config">
+							<div class="alt-text">
+								<div class="label">
+									Digite o conteúdo abaixo:
+								</div>
+								<textarea  v-model="processo.requisitos_entrada">
+									
+								</textarea>
+							</div>
+						</div>
+						<!-- processo requisitos_saida -->
+						<div v-if="processo.pr_requisitos_saida" class="config">
+							<div class="alt-text">
+								<div class="label">
+									Digite o conteúdo abaixo:
+								</div>
+								<textarea  v-model="processo.requisitos_saida">
+									
+								</textarea>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		
 	</div>
 </template>
 
@@ -97,20 +178,45 @@
 			return {
 				app: {
 					process_name: "Nome do processo",
-					process_start: "",
+					process_start: "ooa",
 					process_end: "",
 					sector_mission: ""
 				},
-				processo: [
+				processos: [
 					{
+						id:'',
 						fornecedores: "",
 						entradas: "",
-						processo: "",
+						processo_nome: "",
 						saida: "",
-						clientes: ""
+						clientes: "",
+						requisitos_entrada:"",
+						requisitos_saida:"",
+
+						pr_saida:false,
+						pr_entradas:false,
+						pr_fornecedores:false,
+						pr_processo_nome:false,
+						pr_clientes:false,
+						pr_requisitos_entrada:false,
+						pr_requisitos_saida:false
+						
 					}
 				]
 			};
+		},
+		methods:{
+			pimba:function(variableu){
+				this.processos.forEach(function(element, index, array){
+					element.pr_saida = false;
+					element.pr_entradas = false;
+					element.pr_fornecedores = false;
+					element.pr_processo_nome = false;
+					element.pr_clientes = false;
+					element.pr_requisitos_entrada = false;
+					element.pr_requisitos_saida = false;
+				});
+			}
 		}
 	};
 </script>
@@ -124,6 +230,7 @@
 
 	body {
 		font-family: 'Open Sans', sans-serif;
+		
 	}
 
 	.map-content {
@@ -132,6 +239,7 @@
 		display: block;
 		border: $default_border;
 		border-bottom: 0px;
+		margin-bottom:200px;
 		.map-head-title {
 			width: 100%;
 			padding-top: 5px;
@@ -230,30 +338,7 @@
 					border-bottom: $default_border;
 					position:relative;
 					cursor: pointer;
-					&:after{
-							content:'Clique para editar o processo.';
-							color:white;
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							font-size:20px;
-							font-weight: bold;
-							text-transform: uppercase;
-							position: absolute;
-							top:0;
-							height:0;
-							width:100%;
-							height:100%;
-							transition: all ease-in-out .2s ;
-							background-color: rgba(80, 192, 141, 0.7019607843137254);
-							pointer-events: none;
-							opacity: 0;
-						}
-					&:hover{
-						&:after{
-							opacity: 1;
-						}
-					}
+					
 					.item-margin {
 						width: 38.5%;
 						.item-margin-top {
@@ -313,6 +398,34 @@
 
 					}
 				}
+			}
+		}
+	}
+	.config{
+		position:fixed;
+		bottom:0;
+		left: 0;
+		height:100px;
+		width:100%;
+		background-color:#4db883;
+		padding: 15px;
+		.alt-text{
+			width:80%;
+			.label{
+				width:100%;
+				color:white;
+				font-size: 20px;
+				font-weight: bold;
+				text-transform:uppercase;
+			}
+			textarea{
+				width: 100%;
+				height: 60px;
+				border: solid 0px #2ba568;
+				border-radius: 10px;
+				background-color: #6ff5b2;
+				outline: none;
+				padding: 5px;
 			}
 		}
 	}
